@@ -4,7 +4,22 @@ import GUI from 'lil-gui'
 // import CANNON, { Vec3 } from 'cannon'
 import * as CANNON from 'cannon-es';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
-import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js' 
+// import * as GSAP from 'gsap-es';
+
+
+
+
+export function loadPage1(scene) {}
+
+// export function Page1(scene){}
+
+
+
+
+
+
+
 
 
 //import { roughness } from 'three/tsl'
@@ -164,12 +179,14 @@ const ringPointTexture = new THREE.TextureLoader().load('particles/2b.png');
 
 
 function generateParticles() {
-    const pos = [];
-    const colors = [];
-    const solidColor = new THREE.Color(0xffffff); // Blanc
-    const randomHue = Math.random(); // Teinte aléatoire entre 0 et 1
-    solidColor.setHSL(randomHue, 1, 0.5); // Couleur aléatoire vive
+     const count = params.ringNumParticles; // Initialiser count avec le nombre de particules
+     const pos = [];
+     const colors = [];
+     const solidColor = new THREE.Color(0xffffff); // Blanc
+     const randomHue = Math.random(); // Teinte aléatoire entre 0 et 1
+     solidColor.setHSL(randomHue, 1, 0.5); // Couleur aléatoire vive
 
+ 
     for (let i = 0; i < params.ringNumParticles; i++) {
         const angle = (i / params.ringNumParticles) * Math.PI * 2;
 
@@ -201,17 +218,20 @@ function generateParticles() {
             color.setHSL(hue / 360, 1, 0.5); // Conversion HSL vers RGB
         }
 
-        colors.push(color.r, color.g, color.b);
+        colors.push(color.r, color.g, color.b, 1);
         pos.push(x, y, z);
+
     }
 
+    
 //     // Retourner les positions et les couleurs
 //     return { positions: pos, colors: colors };
 // }
 
     // Mettre à jour la géométrie
     ringGeometry.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-    ringGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    ringGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 4));
+
 }
 
 // Fonction pour mettre à jour les particules
@@ -247,7 +267,8 @@ const ringMaterial = new THREE.PointsMaterial({
         depthWrite: false,
         premultipliedAlpha: true,
         alphaTest: 0.1, // Ajustez cette valeur pour éliminer les bords noirs
-    
+
+  
 
 
 });
@@ -397,6 +418,7 @@ controls.enableDamping = true
 
 
 
+
 /**
  * Renderer
  */
@@ -440,6 +462,187 @@ window.addEventListener('mousemove', (event) => {
     targetRotation.z = mouse.x * -0.1; // Rotation autour de l'axe Z
 });
 
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+// Variables pour l'animation
+// Variables pour l'animation
+let isAnimating = false;
+const targetPosition = new THREE.Vector3(2, 0, -4); // Position finale de la caméra (décalée vers la gauche)
+const initialPosition = camera.position.clone();     // Position initiale de la caméra
+//sphere.position.set(0, 0, -1); // Déplacer la balle à gauche
+
+
+
+
+function animateCamera() {
+    const duration = 5; // Durée de l'animation en secondes
+    const startTime = Date.now();
+
+
+  
+     // Désactiver OrbitControls pendant l'animation
+     controls.enabled = false;
+   
+
+    function update() {
+        const elapsedTime = (Date.now() - startTime) / 500; // Temps écoulé en secondes
+        const progress = Math.min(elapsedTime / duration, 1); // Progression de l'animation (0 à 1)
+
+        // Interpolation de la position avec easing (rapide au début, lent à la fin)
+        const easeProgress = easeOutQuad(progress);
+        camera.position.lerpVectors(initialPosition, targetPosition, easeProgress);
+
+        // Calculer manuellement l'orientation de la caméra pour qu'elle ne regarde pas la balle
+        const direction = new THREE.Vector3(-2, 0, 0); // Regarder vers la droite (par exemple)
+        camera.quaternion.setFromUnitVectors(new THREE.Vector3(-1, 0, 0), direction.normalize());
+        
+
+        const spherePosMoins = new THREE.Vector3(
+            sphere.position.x-1.2,          // Garder la même position X
+            sphere.position.y + 1,          // Garder la même position Y
+            sphere.position.z - 1       // Ajuster la position Z
+        );
+        
+        // Faire regarder la caméra vers ce point
+        camera.lookAt(spherePosMoins);
+
+        // Continuer l'animation si elle n'est pas terminée
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        } else {
+            isAnimating = false; // Animation terminée
+            // controls.enabled = true;
+
+        }
+    }
+
+    update(); // Démarrer l'animation
+}
+
+// Fonction d'easing (ralentit à la fin)
+function easeOutQuad(t) {
+    return t * (1.97 - t);
+}
+
+// Écouteur d'événement pour la touche "m"
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'm' && !isAnimating) {
+        isAnimating = true;
+        animateCamera();
+         animateCameraAndFadeParticles();
+         
+    }
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'p' && !isAnimating) {
+   //     console.log(ringGeometry.attributes.opacity.array);
+      //  console.log(camera.position);
+      
+
+
+    }
+});
+
+let rotateCamera = false;
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'c') {
+        rotateCamera = !rotateCamera; // Activer/désactiver la rotation
+        controls.enabled = !rotateCamera; 
+    }
+});
+
+
+function animateCameraAndFadeParticles() {
+    const duration2 = 3.4; // Durée de l'animation en secondes
+    const startTime = Date.now();
+
+    function update() {
+        const elapsedTime = (Date.now() - startTime) / 1000; // Temps écoulé en secondes
+        const progress = Math.min(elapsedTime / duration2, 1); // Progression de l'animation (0 à 1)
+
+        // Interpolation de la position avec easing (rapide au début, lent à la fin)
+        const easeProgress = easeOutQuad(progress);
+        camera.position.lerpVectors(initialPosition, targetPosition, easeProgress);
+
+        // Interpolation du point de regard
+        // const currentLookAt = new THREE.Vector3().lerpVectors(initialLookAt, targetLookAt, easeProgress);
+        // camera.lookAt(currentLookAt);
+
+        // Faire disparaître les particules en modifiant le canal alpha des couleurs
+        const colors = ringGeometry.attributes.color.array;
+       const numParticles = colors.length / 4;
+
+        for (let i = 0; i < numParticles; i++) {
+            // Calculer un délai progressif pour chaque particule
+
+            const delay = (numParticles - i) / numParticles; // Délai inversé
+        //   //  const delay = i / numParticles; // Délai basé sur la position de la particule
+        //   const delay = customDelayFunction(i, numParticles); // Fonction personnalisée
+
+           
+            const particleProgress = Math.max((progress - delay) / (1 - delay), 0); // Progression pour cette particule
+
+            // Mettre à jour le canal alpha (a) de la particule
+            colors[i * 4 + 3] = 1 - particleProgress; // Opacité diminue de 1 à 0
+        }
+
+        ringGeometry.attributes.color.needsUpdate = true; // Mettre à jour l'attribut color
+
+        // Afficher les valeurs d'opacité pour déboguer
+  
+
+        // Continuer l'animation si elle n'est pas terminée
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        } else {
+            scene.remove(ringGroup);
+
+            scene.remove(ringParticles);
+
+            // Optionnel : Libérer la mémoire
+            ringParticles.geometry.dispose();
+            ringParticles.material.dispose();
+    
+            isAnimating = false; // Animation terminée
+        }
+    }
+
+    update(); // Démarrer l'animation
+}
+
+
+// function customDelayFunction(i, numParticles) {
+//     const wave = Math.sin((i / numParticles) * Math.PI * 2); // Onde sinusoïdale
+//     return (wave + 1) / 2; // Normaliser entre 0 et 1
+// }
+
+
+
+// function customDelayFunction(i, numParticles) {
+//     const angle = (i / numParticles) * Math.PI * 2; // Angle en radians
+//     return angle / (Math.PI * 2); // Normaliser entre 0 et 1
+// }
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+
+
+
+
+
+
 
 /**
  * Animate
@@ -458,17 +661,11 @@ const tick = () =>
     ringGroup.rotation.y += (targetRotation.y - ringGroup.rotation.y) * smoothingFactor;
     ringGroup.rotation.z += (targetRotation.z - ringGroup.rotation.z) * smoothingFactor;
 
-
-    // Rot
-
     ringGroup.children.forEach((ring) => 
         {
-            
             ring.rotation.z += 0.001; // Rotation constante pour tous les rings
 
            // ring.rotation.z = 0.002; forme coupée en 2 stylée
-
-      
         });
  
     // 6. Utilisation de la fonction sinus pour un mouvement plus smooth
@@ -477,9 +674,15 @@ const tick = () =>
     // 7. Ralentir et accélérer en fonction de la sinusoïde
     floatOffset -= floatSpeed;  // Augmente progressivement la valeur pour un mouvement constant
 
-   // camera.lookAt(scene.position)
 
-    controls.update()
+
+//    // camera.lookAt(scene.position)
+//    camera.position.set(-1, 13, 25) 
+//    camera.lookAt(0, 0, 0)
+   
+    if (controls.enabled) {
+            controls.update();
+        }
 
     
     world.step(1 / 60, deltaTime, 3)
