@@ -7,7 +7,7 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js' 
 // import * as GSAP from 'gsap-es';
 
-import { galaxy } from './galaxytest.js';
+import { galaxy } from './galaxy_trail.js';
 
 
 
@@ -177,7 +177,7 @@ function initRandomParams() {
     params.waveFrequency = Math.random() * (16 - 0.1) + 0.1; // Entre 0.1 et 20
     params.waveAmplitude = Math.random() * (4 - 0.1) + 0.1; // Entre 0.1 et 5
     params.hueMax = Math.floor(Math.random() * (360 - 100 + 1)) + 100; // Entre 100 et 360
-    params.size = Math.random() * (0.25 - 0.18) + 0.16; 
+    params.size = Math.random() * (0.25 - 0.21) + 0.21; 
 }
 
 initRandomParams();
@@ -228,6 +228,7 @@ function generateParticles() {
         const x = Math.sin(angle) * radius;
         const z = 0; // Cercle en 2D
 
+      
         let color;
         if (params.ringNumParticles%3 == 0) {
            
@@ -302,7 +303,6 @@ const ringMaterial = new THREE.PointsMaterial({
         premultipliedAlpha: true,
         alphaTest: 0.1, // Ajustez cette valeur pour éliminer les bords noirs
 
-  
 
 
 });
@@ -328,10 +328,15 @@ const ringGroup = new THREE.Group();
 for (let i = 0; i < numRings; i++) {
     const angle = (i / numRings) * Math.PI * 2; // Angle en radians
 
+   // const angle = (i / numRings) * Math.PI * 15; // Angle en radians
+   // const angle = (i / numRings) * Math.PI ; // Angle en radians
+
+
+
     // Calcul des positions pour former un tube
     const x = Math.cos(angle) * torusRadius;
     const z = Math.sin(angle) * torusRadius;
-    const y = 0; // Aligné sur le plan XZ
+    const y = 12; // Aligné sur le plan XZ
 
     const ringClone = ringParticles.clone();
     ringClone.position.set(x, y, z);
@@ -341,11 +346,19 @@ for (let i = 0; i < numRings; i++) {
 
     // Appliquer un quart de tour sur l'axe X
     ringClone.rotateY(Math.PI / 2); // Rotation de 90 degrés
+    //ringClone.rotation.x = (Math.PI / 12); // Rotation de 90 degrés
+    //ringClone.rotation.z = (Math.PI / 12); // Rotation de 90 degrés
+
+
 
     ringGroup.add(ringClone);
 }
 
 scene.add(ringGroup);
+
+//ringGroup.rotation.x = (Math.PI / 12) ; // Rotation de 90 degrés
+
+
 
 
 
@@ -406,11 +419,12 @@ let zoom = false;
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
 
 // 🔹 Placer la caméra en face de la ring (vue de dessus)
-camera.position.set(0, 13, 25); // Déplacer sur l'axe Z pour voir le cercle de face
-if (params.ringRadius < 8)
+camera.position.set(0, 23, 50 ); // Déplacer sur l'axe Z pour voir le cercle de face
+if (params.ringRadius < 5.7)
 {
+    console.log("yes")
     sphere.scale.set(0.4, 0.4, 0.4);
-    camera.position.set(0, 13, 15); 
+    camera.position.set(0, 14, 34); 
     zoom = true;
 }
 
@@ -461,8 +475,8 @@ window.addEventListener('mousemove', (event) => {
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
     // Définir la rotation cible en fonction de la souris
-    targetRotation.y = mouse.x * 0.2; // Rotation autour de l'axe Y
-    targetRotation.x = mouse.y * 0.2; // Rotation autour de l'axe X
+    targetRotation.y = mouse.x * 0.3; // Rotation autour de l'axe Y
+    targetRotation.x = mouse.y * 0.1; // Rotation autour de l'axe X
     targetRotation.z = mouse.x * -0.1; // Rotation autour de l'axe Z
 });
 
@@ -619,40 +633,45 @@ animateCameraAndFadeParticles()
 //     return angle / (Math.PI * 2); // Normaliser entre 0 et 1
 // }
 
+
+
+
+
+
+////////////////////    GALAXY  ////////////////////////
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
-
-
-////////////////////    /PARTICULES MOUV ///////////////////////////////////
-
-
-
-
-
-
-
 
 const galaxy_ = galaxy(scene, camera,controls ,renderer, color_style , solid_color_style);
 console.log(solid_color_style)
 scene.add(galaxy_);
 
+//console.log(params.ringRadius);
+galaxy_.position.y = 5;
 
-if(zoom == true && galaxy_)
-{ 
-   galaxy_.scale.set(1.2, 1.2 , 1.2);
-    console.log("zoom");
-}
+if( params.ringRadius < 6 && galaxy_)
+    { 
+       galaxy_.scale.set(0.9, 0.8 , 0.9);
+       galaxy_.position.y = 7;
+        console.log("1");
+       
+    }
+if( params.ringRadius > 10 && galaxy_)
+    { 
+        galaxy_.scale.set(1.1, 1.3 , 1.3);
+        console.log("2");   
+        
+    }
 
 
 
 
 
+ //console.log(galaxy_.position.y )  
+    
+    
 
 
-
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 

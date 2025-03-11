@@ -16,8 +16,8 @@ export function galaxy(scene, camera, controls, renderer, color_style, solid_col
 
     // Paramètres de la galaxie
     const parameters = {
-        count: 160000, // Nombre de particules
-        size: 0.2, // Taille des particules
+        count: 140000, // Nombre de particules
+        size: 0.1, // Taille des particules
         radius: 3.5, // Rayon de la galaxie
         branches: 5, // Nombre de branches
         spin: 1.5, // Facteur de rotation
@@ -31,7 +31,7 @@ export function galaxy(scene, camera, controls, renderer, color_style, solid_col
     };
 
     // Appliquer une couleur solide si nécessaire
-    if (color_style === 1) {
+    if (color_style === 1 || color_style === 3) {
         const randomHue = Math.random();
         solid_color_style.setHSL(randomHue, 1, 0.5);
     }
@@ -64,7 +64,7 @@ export function galaxy(scene, camera, controls, renderer, color_style, solid_col
     
             // Appliquer le facteur d'étirement
             positions[i3] = (Math.cos(branchAngle + spinAngle) * radius + randomX) * parameters.stretchFactor;
-            positions[i3 + 1] = randomY - radius * parameters.stretchFactor * 5; // Abaissement en Y
+            positions[i3 + 1] = randomY - radius * parameters.stretchFactor * 4; // Abaissement en Y
             positions[i3 + 2] = (Math.sin(branchAngle + spinAngle) * radius + randomZ) * parameters.stretchFactor;
     
             // Mettre à jour les valeurs minimales et maximales de y
@@ -73,18 +73,19 @@ export function galaxy(scene, camera, controls, renderer, color_style, solid_col
     
             // Couleur
             let color;
-            if (color_style === 1) {
+            if ( color_style === 1 || color_style === 3) {
                 color = solid_color_style;
-            } else if (color_style === 2) {
+            } else if (color_style === 2 ) {
                 const hue = (branchAngle / (Math.PI * 2)) * 110;
                 color = new THREE.Color();
                 color.setHSL(hue / 15, 2, 0.39);
                 color.g = color.b;
-            } else if (color_style === 3) {
-                const hue = (branchAngle / (Math.PI * 2)) * parameters.hueMax;
-                color = new THREE.Color();
-                color.setHSL(hue / 360, 1, 0.5);
-            }
+             } 
+             //else if (color_style === 5) {
+            //     const hue = (branchAngle / (Math.PI * 2)) * parameters.hueMax;
+            //     color = new THREE.Color();
+            //     color.setHSL(hue / 360, 2, 0.2);
+            // }
     
             colors[i4] = color.r;
             colors[i4 + 1] = color.g;
@@ -136,7 +137,7 @@ export function galaxy(scene, camera, controls, renderer, color_style, solid_col
     }
   
     function animateGalaxyOpacity(baseOpacities, minY, maxY) {
-        const minOpacity = 0.01; // Opacité minimale
+        const minOpacity = 0.005; // Opacité minimale
         const duration = 4; // Durée de l'animation en secondes
         const startTime = Date.now();
     
