@@ -8,6 +8,9 @@ import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 // import * as GSAP from 'gsap-es';
 
 import { galaxy } from './galaxy_trail.js';
+//import { galaxy } from './ruban.js';
+
+
 
 
 
@@ -172,7 +175,7 @@ const params = {
 };
 
 function initRandomParams() {
-    params.ringNumParticles = Math.floor(Math.random() * (1000 - 300 + 1)) + 300; // Entre 100 et 1000
+    params.ringNumParticles = Math.floor(Math.random() * (700 - 300 + 1)) + 300; // Entre 100 et 1000
     params.ringRadius = Math.random() * (13 - 4) + 4; // Entre 1 et 20
     params.waveFrequency = Math.random() * (16 - 0.1) + 0.1; // Entre 0.1 et 20
     params.waveAmplitude = Math.random() * (4 - 0.1) + 0.1; // Entre 0.1 et 5
@@ -196,7 +199,7 @@ initRandomParams();
 
 // Variables globales
 let ringGeometry;
-const ringNumParticles = 600; // Nombre de particules dans le cercle
+const ringNumParticles = 550; // Nombre de particules dans le cercle
 const ringRadius = 5.3; // Rayon du cercle
 const waveFrequency = 10; // Fréquence de l'onde
 const waveAmplitude = 0.5; // Amplitude de l'onde
@@ -248,7 +251,7 @@ function generateParticles() {
             // Sinon, calculer la teinte en fonction de l'angle et de hueMax
             const hue = (angle / (Math.PI * 2)) * params.hueMax;
             color = new THREE.Color();
-            color.setHSL(hue / 360, 1, 0.5); // Conversion HSL vers RGB
+            color.setHSL(hue / 40, 2, 0.6)// Conversion HSL vers RGB
             color_style = 3
 
         }
@@ -321,7 +324,7 @@ const axesHelper = new THREE.AxesHelper(3); // Longueur des axes
 
 // Ajouter 3 copies avec un décalage et une rotation unique
 const torusRadius = 2; // Rayon du tore (cercle principal)
-const numRings = 120; // Nombre de rings autour du tore
+const numRings = 100; // Nombre de rings autour du tore
 
 const ringGroup = new THREE.Group();
 
@@ -543,7 +546,7 @@ const initialPosition = camera.position.clone();     // Position initiale de la 
 
 // Fonction d'easing (ralentit à la fin)
 
-const minOpacity = 0.385; // Opacité minimale des particules (ajustable)
+const minOpacity = 0.27; // Opacité minimale des particules (ajustable)
 let isFadingOut = true; // État de l'animation (true = disparition, false = réapparition)
 
 function animateCameraAndFadeParticles() {
@@ -643,7 +646,7 @@ animateCameraAndFadeParticles()
 ////////////////////////////////////////////////////////
 
 const galaxy_ = galaxy(scene, camera,controls ,renderer, color_style , solid_color_style);
-console.log(solid_color_style)
+//console.log(solid_color_style)
 scene.add(galaxy_);
 
 //console.log(params.ringRadius);
@@ -653,13 +656,15 @@ if( params.ringRadius < 6 && galaxy_)
     { 
        galaxy_.scale.set(0.9, 0.8 , 0.9);
        galaxy_.position.y = 7;
-        console.log("1");
+        console.log("ya");
        
     }
 if( params.ringRadius > 10 && galaxy_)
     { 
         galaxy_.scale.set(1.1, 1.3 , 1.3);
-        console.log("2");   
+        ringGroup.scale.set(0.8, 0.8 , 0.8);
+
+        console.log("yo");   
         
     }
 

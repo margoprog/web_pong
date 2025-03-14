@@ -19,3 +19,36 @@ export function loadPage2(scene) {
 
 
 
+
+
+
+function animateGalaxy() {
+    if (!geometry || !geometry.attributes.position) return;
+
+    const positions = geometry.attributes.position.array;
+    const time = performance.now() * 0.001; // Temps en secondes
+
+    for (let i = 0; i < parameters.count; i++) {
+        const i3 = i * 3;
+
+        // Récupérer les positions actuelles
+        const x = positions[i3];
+        const y = positions[i3 + 1];
+        const z = positions[i3 + 2];
+
+        // Calculer l'angle de la branche
+        const branchAngle = Math.atan2(z, x);
+
+        // Appliquer une ondulation sinusoïdale
+        const wave = Math.sin(branchAngle * parameters.branches + time * 2) * 0.015;
+
+        // Mettre à jour les positions
+        positions[i3] = x + Math.cos(branchAngle) * wave;
+        positions[i3 + 2] = z + Math.sin(branchAngle) * wave;
+    }
+
+    geometry.attributes.position.needsUpdate = true;
+}
+
+// Générer la galaxie
+generateGalaxy();

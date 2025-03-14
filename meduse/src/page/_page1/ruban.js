@@ -147,7 +147,7 @@ export function galaxy(scene, camera, controls, renderer, color_style, solid_col
         scene.add(points);
     
         // Démarrer l'animation d'opacité
-        animateGalaxyOpacity(baseOpacities, minY, maxY);
+        //animateGalaxyOpacity(baseOpacities, minY, maxY);
     }
   
     function animateGalaxyOpacity(baseOpacities, minY, maxY) {
@@ -234,45 +234,90 @@ export function galaxy(scene, camera, controls, renderer, color_style, solid_col
         return t * (2 - t);
     }
   
-
+////////////////////////////////////////////////////////////////////////////////////////////
    
 
-    // Animer la galaxie (mouvement des particules)
-    function animateGalaxy() {
-        if (!geometry || !geometry.attributes.position) return;
+const mouse = { x: 0, y: 0 };
+const mouseTrail = []; // Tableau pour stocker les positions de la souris
+const trailLength = 50; // Nombre de points dans la traînée
+const particleCount = 100; // Nombre de particules dans le ruban
+const spacing = 0.1; // Distance entre les particules
 
-        const positions = geometry.attributes.position.array;
-        const time = performance.now() * 0.001; // Temps en secondes
+// Écouter les mouvements de la souris
+window.addEventListener('mousemove', (event) => {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1; // Normalisé entre -1 et 1
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1; // Normalisé entre -1 et 1
 
-        for (let i = 0; i < parameters.count; i++) {
-            const i3 = i * 3;
+    // Ajouter la position actuelle de la souris à la traînée
+    mouseTrail.push({ x: mouse.x * 10, y: mouse.y * 10 }); // Ajuster l'échelle
 
-            // Récupérer les positions actuelles
-            const x = positions[i3];
-            const y = positions[i3 + 1];
-            const z = positions[i3 + 2];
+    // Garder la traînée à une longueur fixe
+    if (mouseTrail.length > trailLength) {
+        mouseTrail.shift(); // Supprimer le point le plus ancien
+    }
+});
 
-            // Calculer l'angle de la branche
-            const branchAngle = Math.atan2(z, x);
+   // Fonction pour animer le ruban de particules
+   function animateRibbon() {
+    console.log("animateRibbon appelée");
 
-            // Appliquer une ondulation sinusoïdale
-            const wave = Math.sin(branchAngle * parameters.branches + time * 2) * 0.015;
-
-            // Mettre à jour les positions
-            positions[i3] = x + Math.cos(branchAngle) * wave;
-            positions[i3 + 2] = z + Math.sin(branchAngle) * wave;
-        }
-
-        geometry.attributes.position.needsUpdate = true;
+    // Vérifier que geometry et mouseTrail sont définis
+    if (!geometry || !geometry.attributes.position || mouseTrail.length === 0) {
+        console.log("geometry ou mouseTrail non défini");
+        return;
     }
 
-    // Générer la galaxie
-    generateGalaxy();
+    const positions = geometry.attributes.position.array;
+    console.log("positions:", positions);
 
+    for (let i = 0; i < parameters.count; i++) {
+        const i3 = i * 3;
+
+        // Calculer l'index dans la traînée pour cette particule
+        const trailIndex = Math.floor((i / parameters.count) * mouseTrail.length);
+
+        // Récupérer la position correspondante dans la traînée
+        const target = mouseTrail[trailIndex];
+        console.log("target:", target);
+
+        if (target) {
+            console.log("test"); // Ce message devrait s'afficher si target est défini
+
+            // Interpolation pour un mouvement fluide
+            const dx = target.x - positions[i3];
+            const dy = target.y - positions[i3 + 1];
+
+            // Déplacer la particule vers la cible
+            positions[i3] += dx * 0.1; // Ajuster la vitesse de déplacement
+            positions[i3 + 1] += dy * 0.1;
+
+            // Maintenir une distance entre les particules
+            if (i > 0) {
+                const prevX = positions[(i - 1) * 3];
+                const prevY = positions[(i - 1) * 3 + 1];
+                const distance = Math.sqrt((prevX - positions[i3]) ** 2 + (prevY - positions[i3 + 1]) ** 2);
+
+                if (distance < ribbonSpacing) {
+                    positions[i3] = prevX + (positions[i3] - prevX) * (ribbonSpacing / distance);
+                    positions[i3 + 1] = prevY + (positions[i3 + 1] - prevY) * (ribbonSpacing / distance);
+                }
+            }
+        }
+    }
+
+    // Mettre à jour la géométrie
+    geometry.attributes.position.needsUpdate = true;
+}
+generateGalaxy();
+// Boucle d'animation
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
     // Animation principale
     function animate() {
         requestAnimationFrame(animate);
-        animateGalaxy();
+   //    animateGalaxy();
+       animateRibbon();
       //  updateParticles(particles);
         controls.update();
         renderer.render(scene, camera);
