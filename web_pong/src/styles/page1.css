@@ -1,5 +1,4 @@
 
-
 body, html {
     margin: 0;
     width: 100%;
@@ -128,70 +127,6 @@ canvas.webgl {
 }
 
 
-.sign_title {
-    padding: 5px 10px 15px 10px;
-
-    font-weight: 600;
-    font-size: 20px;
-    border: none;
-    background: none;
-    color: rgb(213, 214, 216);
-    text-align: center;
-}
-/* Ajustement individuel */
-.password, .login , .forgot {
-    color: rgb(107, 109, 113);
-
-    font-weight: 600;
-    font-size: 15px;
-    padding: 10px 10px 10px 10px;
-  
-    /* border: 1px solid red; */
-    text-align: left;
-
-    position: relative;
-    width: 100%;  /* Même largeur que .password */
-    display: flex;
-    flex-direction: column;
-    /* border: 2px solid red; */
- 
-
-}
-
-.signin_button {
-    font-weight: 800;
-    font-size: 19px;  /* Réduction de la taille du texte */
-    padding: 8px 20px ;  /* Plus petit que les autres */
-    margin-top: 30px;
-    /* border: 1px solid blue; */
-    background-color: #ffffffee;
-
-
-}
-
-
-.password {
-    margin-bottom: 0px;
-}
-
-.forgot {
-    /* position: absolute;
-    bottom: 0;
-    right: 0; */
-   
-    margin-top: 0 px;
-    font-weight: 600;
-    font-size: 11px;
-    border: none;
-    background: none;
-    color: rgba(213, 214, 216, 0.857);
-    cursor: pointer;
-    text-align: right;
-    /* border: 2px solid white; */
-}
-
-
-
 .bouton_prout {
     /* position: absolute;
     bottom: 0;
@@ -199,14 +134,13 @@ canvas.webgl {
     position: absolute;
     margin-top: 0 px;
     font-weight: 600;
-    font-size: 110px;
+    font-size: 130px;
     border: none;
     background: none;
-    color: rgba(171, 92, 245, 0.857);
+    color: rgba(255, 238, 80, 0.857);
     text-align: center;
     cursor: pointer;
     text-align: right;
     /* border: 2px solid white; */
 }
-
 

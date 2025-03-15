@@ -1,29 +1,30 @@
 import * as THREE from 'three';
 
 
-
+//import { loadPage1, animateCameraAndFadeParticles, animateCamera } from './page/page1.js';
 import { loadPage1 } from './page/page1.js';
 import { loadPage2 } from './page/page2.js';
+ import './style.css';
 
 export function initRouter(scene, camera) {
-    // Charger la page 1 par défaut
-    loadPage1(scene);
+    // 
 
-    // Gestion des clics sur les boutons
-    document.getElementById('btnPage1').addEventListener('click', () => {
-        scene.clear(); // Vide la scène
-        loadPage1(scene); // Charge la page 1
-        console.log("Page 1 chargée");
+    document.body.addEventListener('click', (event) => {
+        console.log("Clic détecté sur :", event.target.id); // Débogage
+    
+        loadPage1();
+
+        if (event.target.id === 'btnPage1') {
+            console.log("Chargement de la page 1");
+            loadPage1(scene);
+        } else if (event.target.id === 'btnPage2') {
+            console.log("Chargement de la page 2");
+            scene.clear(); 
+            loadPage2(scene);
+        }
     });
 
-    document.getElementById('btnPage2').addEventListener('click', () => {
-        scene.clear(); // Vide la scène
-        loadPage2(scene); // Charge la page 2
-
-        // Animer la caméra vers une nouvelle position
-        animateCamera(camera, { x: 0, y: 13, z: 15 }, { x: 0, y: 0, z: 0 });
-        console.log("Page 2 chargée");
-    });
+   
 }
 
 // Fonction pour animer la caméra

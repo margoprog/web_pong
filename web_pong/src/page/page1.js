@@ -6,18 +6,68 @@ import * as CANNON from 'cannon-es';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js' 
 // import * as GSAP from 'gsap-es';
-
+// import { loadCSS } from './utils.js';
 
 
 
 export function loadPage1(scene) {}
 
-// export function Page1(scene){}
 
+    console.log("Chargement de la page 1");
 
+    function loadCSS(filename) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = filename;
+        document.head.appendChild(link);
+    }
+    
+    function removeCSS(filename) {
+        // Sélectionne toutes les balises <link> dans le <head>
+        const links = document.querySelectorAll('link[rel="stylesheet"]');
+    
+        // Parcourt toutes les balises <link>
+        links.forEach(link => {
+            // Si l'attribut href correspond au fichier CSS à supprimer
+            if (link.href.includes(filename)) {
+                link.remove(); // Supprime la balise <link>
+            }
+        });
+    }
 
+    // a emcapsuler dans fichier utils
+    
+    
+    
+    
+    loadCSS('./style.css');
+    
 
+    // Supprime les CSS des autres pages
+    removeCSS('./styles/page2.css');
+   
+    // Créez le contenu HTML de la page 1
+    const pageContent = document.createElement('div'); // Utilisez un élément HTML valide
+    pageContent.id = 'page1';
+    pageContent.innerHTML = `
+        <div class="blur-box">
+            <button class="sign_title">SIGN IN</button>
+            <button class="login">Login</button>
+            <button class="password">Password</button>
+            <button class="forgot">Forgot password?</button>
+            <button class="signin_button">Sign in</button>
+            <button class="bouton_prout">prout</button>
+            <div id="threejs-container"></div>
+            <!-- Boutons de navigation -->
+            <div id="navigation">
+                <button id="btnPage1">Page 1</button>
+                <button id="btnPage2">Page 2</button>
+            </div>
+        </div>
+    `;
 
+    // Ajoutez le contenu au conteneur principal
+    document.body.appendChild(pageContent); // Ajoutez pageContent au DOM
 
 
 
@@ -200,12 +250,12 @@ function generateParticles() {
 
         let color;
         if (params.ringNumParticles%3 == 0) {
-            console.log("chance");
+           
            
             color = solidColor;
         } 
         else if (params.ringNumParticles%4 == 0) {
-            console.log("aloooq");
+            // console.log("aloooq");
             const hue = (angle / (Math.PI * 2)) * 110; // idem //ici300
             color = new THREE.Color();
             color.setHSL(hue / 15, 2, 0.39); // division hue a modif  //ici tout
@@ -528,15 +578,80 @@ function easeOutQuad(t) {
     return t * (1.97 - t);
 }
 
-// Écouteur d'événement pour la touche "m"
-document.addEventListener('keydown', (event) => {
-    if (event.key === 'm' && !isAnimating) {
-        isAnimating = true;
-        animateCamera();
-         animateCameraAndFadeParticles();
-         
-    }
+
+// page1.js
+// export function loadPage1(scene) {
+//     // Code pour charger la page 1
+//     console.log("Page 1 chargée");
+
+//     // Créez le bouton dynamiquement
+//     const button = document.createElement('button');
+//     button.id = 'btnPage1';
+//     button.textContent = 'Aller à la Page 2';
+//     document.body.appendChild(button);
+
+//     // Retournez le bouton pour que router.js puisse l'utiliser
+//     return button;
+// }
+
+
+
+// Créez le bouton et ajoutez-le au DOM
+const btnPage2 = document.createElement('button');
+btnPage2.id = 'btnPage2';
+btnPage2.textContent = 'Aller à la Page 2';
+document.body.appendChild(btnPage2);
+
+// Ajoutez l'écouteur d'événements après avoir ajouté le bouton au DOM
+btnPage2.addEventListener('click', () => {
+    isAnimating = true;
+    animateCamera();
+    animateCameraAndFadeParticles();
+    console.log("YEAH.");
 });
+// // Ajoutez l'écouteur d'événements après avoir ajouté le contenu au DOM
+// const btnPage2 = document.getElementById('btnPage2');
+// if (btnPage2) {
+//     btnPage2.addEventListener('click', () => {
+//         isAnimating = true;
+//         animateCamera();
+//         animateCameraAndFadeParticles();
+//         // loadPage2(scene); // Charge la page 2
+//     console.log("YEAH.");
+
+//     });
+// } else {
+//     console.error("Le bouton btnPage2 n'a pas été trouvé dans le DOM.");
+// }
+
+// const button = document.createElement('button');
+// button.id = 'btnPage2'; // Utilisez le bon ID
+// button.textContent = 'Aller à la Page 2';
+// document.body.appendChild(button);
+
+// document.getElementById('btnPage2').addEventListener('click', () => {
+//     isAnimating = true;
+//     animateCamera();
+//     animateCameraAndFadeParticles();
+//     // loadPage2(scene); // Charge la page 2
+// });
+
+
+
+
+
+
+
+    // document.getElementById('btnPage2').addEventListener('click', () => {
+    //     scene.clear(); // Vide la scène
+    //     loadPage2(scene); // Charge la page 2
+
+    //     // Animer la caméra vers une nouvelle position
+    //     animateCamera(camera, { x: 0, y: 13, z: 15 }, { x: 0, y: 0, z: 0 });
+    //     console.log("Page 2 chargée");
+    // });
+
+
 
 document.addEventListener('keydown', (event) => {
     if (event.key === 'p' && !isAnimating) {
