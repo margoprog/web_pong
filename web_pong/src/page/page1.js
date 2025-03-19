@@ -56,19 +56,32 @@ export function loadPage1(scene) {}
             <button class="password">Password</button>
             <button class="forgot">Forgot password?</button>
             <button class="signin_button">Sign in</button>
-            <button class="bouton_prout">prout</button>
             <div id="threejs-container"></div>
             <!-- Boutons de navigation -->
             <div id="navigation">
                 <button id="btnPage1">Page 1</button>
+                <button class="bouton_prout">prout</button>
                 <button id="btnPage2">Page 2</button>
             </div>
         </div>
     `;
 
     // Ajoutez le contenu au conteneur principal
-    document.body.appendChild(pageContent); // Ajoutez pageContent au DOM
+    document.body.appendChild(page1); // Ajoutez pageContent au DOM
 
+
+    function showPage(pageId) {
+        // Masque toutes les pages
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+        });
+    
+        // Affiche la page spécifiée
+        document.getElementById(pageId).classList.add('active');
+    }
+    
+    // Exemple d'utilisation
+    showPage('page1'); // Affiche la page 1
 
 
 
@@ -598,7 +611,7 @@ function easeOutQuad(t) {
 
 // Créez le bouton et ajoutez-le au DOM
 const btnPage2 = document.createElement('button');
-btnPage2.id = 'btnPage2';
+btnPage2.id = 'page2Content';
 btnPage2.textContent = 'Aller à la Page 2';
 document.body.appendChild(btnPage2);
 

@@ -42,8 +42,28 @@ export function loadPage2(scene) {
         <h1>Page 2</h1>
         <button id="btnPage2">prout</button>
         <button class="bouton_prout">prout</button>
+        <button class="bouton_prout">prout</button>
     `;
 
+
+
+      // Ajoutez le contenu au conteneur principal
+      document.body.appendChild(page2Content); // Ajoutez pageContent au DOM
+
+
+      function showPage(pageId) {
+          // Masque toutes les pages
+          document.querySelectorAll('.page').forEach(page => {
+              page.classList.remove('active');
+          });
+      
+          // Affiche la page spécifiée
+          document.getElementById(pageId).classList.add('active');
+      }
+      
+      // Exemple d'utilisation
+      showPage('page2Content'); // Affiche la page 1
+  
     // Ajoutez le contenu au conteneur principal
     document.body.appendChild(page2Content); // Ajoutez page2Content au DOM
 

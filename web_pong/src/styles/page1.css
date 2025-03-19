@@ -28,7 +28,14 @@ canvas.webgl {
 }
 
 
+.page {
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+}
 
+.page.active {
+    opacity: 1;
+}
 
 
 
@@ -98,7 +105,13 @@ canvas.webgl {
 }
 
 
+.page {
+    display: none; /* Masque toutes les pages par défaut */
+}
 
+.page.active {
+    display: block; /* Affiche la page active */
+}
 
 
 /* Styles généraux pour tous les boutons */
@@ -137,10 +150,9 @@ canvas.webgl {
     font-size: 130px;
     border: none;
     background: none;
-    color: rgba(255, 238, 80, 0.857);
+    color: rgba(255, 47, 231, 0.857);
     text-align: center;
     cursor: pointer;
     text-align: right;
     /* border: 2px solid white; */
 }
-

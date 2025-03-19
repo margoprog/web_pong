@@ -5,12 +5,30 @@ import * as THREE from 'three';
 import { loadPage1 } from './page/page1.js';
 import { loadPage2 } from './page/page2.js';
  import './style.css';
+ import '/styles/page2.css';
+
+
+
+//  function showPage(pageId) {
+//     // Masque toutes les pages
+//     document.querySelectorAll('.page').forEach(page => {
+//         page.classList.remove('active');
+//     });
+
+//     // Affiche la page spécifiée
+//     document.getElementById(pageId).classList.add('active');
+// }
+
+// Afficher la page d'accueil par défaut au chargement
+document.addEventListener('DOMContentLoaded', () => {
+    showPage('page-content');
+});
 
 export function initRouter(scene, camera) {
     // 
 
     document.body.addEventListener('click', (event) => {
-        console.log("Clic détecté sur :", event.target.id); // Débogage
+       // console.log("Clic détecté sur :", event.target.id); // Débogage
     
         loadPage1();
 
@@ -26,6 +44,13 @@ export function initRouter(scene, camera) {
 
    
 }
+
+
+
+
+
+
+
 
 // Fonction pour animer la caméra
 function animateCamera(camera, targetPosition, targetLookAt, duration = 1) {

@@ -1,4 +1,12 @@
 
+.page {
+    display: none; /* Masque toutes les pages par défaut */
+}
+
+.page.active {
+    display: block; /* Affiche la page active */
+}
+
 
 body, html {
     margin: 0;

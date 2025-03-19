@@ -25,10 +25,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PONG</title>
-    <link rel="stylesheet" href="css/">
+    <!-- <link rel="stylesheet" href="css/"> -->
+    <style>
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+    </style>
+    
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <link href="/styles/page1.css" rel="stylesheet" type="text/css">
+
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,25 +49,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,100..900&display=swap" rel="stylesheet">
     <!-- <script src="libs/dat.gui.min.js"></script>  -->
 </head>
+
 <body>
     
         <canvas class="webgl"></canvas>
         <!-- <script type="module" src="./generator_script.js"></script> -->
         <title>Projet 1 - Physics_fluide Multicolors</title>
-        <link rel="stylesheet" href="./style.css">
+        <!-- <link rel="stylesheet" href="./style.css"> -->
         
 
 
 
     <!-- HEADER: Personnaliser le titre, logo et navigation -->
-    <header class="header">
+    <!-- <header class="header">
         <nav class="nav">
             <ul>
                 <p class="title">PONG <br>
                     &nbsp;&nbsp;&nbsp;&nbsp;GAME</p>
+                    <button onclick="showPage('page-content')">page1</button>
+                    <button onclick="showPage('page2Content')">page2</button>
             </ul>
         </nav>
-    </header>
+    </header> -->
         <!-- <div class="blur-box">
             <button class="sign_title">SIGN IN</button>
             <button class="login">Login</button>
@@ -74,14 +90,25 @@
 
 
             <div id="app"></div>
+<!-- page1 et page  -->
+            <div id="page1" class="page active">
+                <h1>À propos</h1>
+                <p>Découvrez qui nous sommes.</p> 
+            </div>
 
-            <div id="page-content"></div>
-            <!-- <div id="page2content"></div> -->
+            <div id="page2" class="page">
+                <h1>À propos 2</h1>
+                <p>pqge 2 test.</p> 
+                <p>pqge 2 test.</p> 
+            </div>
+
+            <button onclick="showPage('page1')">Afficher Page 1</button>
+           <button onclick="showPage('page2')">Afficher Page 2</button>
 
 
           <script type="module" src="./main.js"></script>
-          <script type="module" src="./page/page1.js"></script>
-           <script type="module" src="./page/page2.js"></script>
+          <!-- <script type="module" src="./page/page1.js"></script> -->
+           <!-- <script type="module" src="./page/page2.js"></script> -->
           <script type="module" src="./router.js"></script>
         
    
