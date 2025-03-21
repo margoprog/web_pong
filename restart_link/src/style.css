@@ -1,0 +1,91 @@
+
+
+.page {
+    display: none; /* Masque toutes les pages par défaut */
+}
+
+.page.active {
+    display: block; /* Affiche la page active */
+}
+
+
+body, html {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0); /* Fond noir pour l'HTML */
+    overflow: hidden;
+}
+
+canvas.webgl {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1; /* Canvas en arrière-plan */
+    pointer-events: none; /* Le canvas ne capte pas les événements de souris */
+}
+
+
+
+.dg.main {
+    /* zoom: 0.8; Fonctionne mieux sur Dat.GUI */
+   
+
+    transform: scale(1.5);
+    transform-origin: 0 0; 
+}
+
+
+
+
+
+
+/* Mets tout le HTML au-dessus du canvas */
+.header, .main, .footer {
+   
+    position: relative;
+    z-index: 1; /* Plus haut que le canvas */
+}
+
+.bree-serif-regular {
+    font-family: "roboto";
+    font-weight: 400;
+    font-style: normal;
+  }
+
+
+/* 
+
+
+
+  
+/* Centre le bouton */
+.title {
+    margin-top: 200px;
+    margin-left: 40px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 800; 
+    font-style: italic; 
+    line-height: 0.9;
+   
+    position: absolute;
+    top: 70%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    padding: 10px 10px;
+
+    font-size: clamp(90px, 10vw, 140px);
+
+    color: rgb(255, 255, 255);
+    border-radius: 4px;
+    cursor: pointer;
+    /* z-index: 1; */
+
+}
+
+
+
+
+
