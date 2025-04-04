@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PONG</title>
+    <link rel="stylesheet" href="css/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,100..900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+    <!-- Ajoutez simplement ce div autour de votre contenu existant -->
+<div id="app-content">
+  
+  
+    <canvas class="webgl"></canvas>
+    <div class="point point-0">
+
+
+             
+        <div class="title">PONG <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;GAME</div>
+
+
+        <div id="navigation">
+        <div class="blur-box">
+            <button class="sign_title">SIGN IN</button>
+            <button class="login">Login</button>
+            <button class="password">Password</button>
+            <button class="forgot">Forgot password?</button>
+            <!-- <button class="signin_button">Sign in</button> -->
+            <button class="signin_button" onclick="navigateTo('page2')">Sign in</button>
+
+            <button onclick="navigateTo('page2')">Page 2</button>
+
+
+            </div>
+    </div>
+
+    <div id="js-loader" class="loader-overlay">
+        <div class="loader-bar"></div>
+      </div>
+
+      <!-- <script type="module" src="./main.js"></script> -->
+
+    <!-- <script type="module" src="./home.js"></script> -->
+
+
+</div>
+     <!-- Ajoutez router.js avant la fermeture du body -->
+  <script src="router.js"></script>
+  <script type="module" src="home.js"></script>
+</body>
+</html>
